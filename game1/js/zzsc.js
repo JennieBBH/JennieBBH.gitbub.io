@@ -135,32 +135,74 @@ puzzleGame.prototype = {
   this.cb_cellDown.add(self.cellDown);
   for(var i = 0, len = this.cellArr.length; i<len; i++){
    this.cellArr[i].on({
-    "mouseover": function(){
+     "mouseover": function () {
+       console.log("mouseover touchstart addClass")
      $(this).addClass("hover");
     },
-    "mouseout": function(){
+     "mouseout": function () {
+       console.log("mouseout touchend removeClass")
      $(this).removeClass("hover");
     },
-    "mousedown": function(e){
+     "mousedown": function (e) {
+       console.log("mousedown touchover self")
      self.cb_cellDown.fire(e, $(this), self);
      return false;
     }
-    
    });
+    this.cellArr[i].bind("touchstart", function (e) {
+      console.log("mousedown touchover self")
+      $(this).addClass("hover");
+      self.cb_cellDown.fire(e, $(this), self);
+    });
+    this.cellArr[i].bind("touchend", function (e) {
+      console.log("mouseout touchend removeClass")
+      $(this).removeClass("hover");
+    });
   }
  },
  cellDown:function(e,_cell,self){
   var //self = this,
-  _x = e.pageX - _cell.offset().left,
-  _y = e.pageY - _cell.offset().top;
+  _x = e.originalEvent.targetTouches[0].pageX - _cell.offset().left,
+  _y = e.originalEvent.targetTouches[0].pageY - _cell.offset().top;
      
   self.thisLeft = _cell.css("left");
   self.thisTop = _cell.css("top");
   self.thisIndex = Math.floor(parseInt(self.thisTop)/self.cellHeight)*self.cellCol;
   self.thisIndex += Math.floor(parseInt(self.thisLeft)/self.cellWidth);
-     
+   console.log("self:", _x, _y, self.thisLeft, self.thisTop, self.thisIndex) ;
   _cell.css("zIndex",99);
-   $(document).on({
+   $(document).bind("touchmove", function (e) {
+     console.log("touchmove")
+     _cell.css({
+       "left": e.originalEvent.targetTouches[0].pageX - self.offX - _x,
+       "top": e.originalEvent.targetTouches[0].pageY - self.offY - _y
+     })
+     console.log("left:", e.originalEvent.targetTouches[0].pageX - self.offX - _x, "right:", e.originalEvent.targetTouches[0].pageY - self.offY - _y)
+   }).bind("touchend", function (e) {
+     console.log("touchend");
+     $(document).unbind("touchmove");
+     $(document).unbind("touchend");
+     self.cb_cellDown.empty();
+     if (e.originalEvent.changedTouches[0].pageX - self.offX < 0 || e.originalEvent.changedTouches[0].pageX - self.offX > self.areaWidth || e.originalEvent.changedTouches[0].pageY - self.offY < 0 || e.originalEvent.changedTouches[0].pageY - self.offY > self.areaHeight) {
+       self.returnCell();
+       return;
+     }
+
+     var _tx, _ty, _ti, _tj;
+     _tx = e.originalEvent.changedTouches[0].pageX - self.offX;
+     _ty = e.originalEvent.changedTouches[0].pageY - self.offY;
+
+     _ti = Math.floor(_ty / self.cellHeight);
+     _tj = Math.floor(_tx / self.cellWidth);
+
+     self.nextIndex = _ti * self.cellCol + _tj;
+     if (self.nextIndex == self.thisIndex) {
+       self.returnCell();
+     } else {
+       self.changeCell();
+     }
+   });
+   /*$(document).on({
     "mousemove": function(e){
      _cell.css({
       "left": e.pageX - self.offX - _x,
@@ -190,7 +232,7 @@ puzzleGame.prototype = {
       self.changeCell();
      }
     }
-   })
+   })*/
    
  },
  changeCell:function(){
