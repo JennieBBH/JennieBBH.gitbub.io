@@ -56,18 +56,21 @@ puzzleGame.prototype = {
   var self = this;
   
   this.e_startBtn.click(function(){
-   self.e_levelMenu.hide();
+   //self.e_levelMenu.hide();
    self.play();
   });
-  this.e_levelBtn.click(function(){
-   if(self.playing) return;
-   self.e_levelMenu.toggle();
-  });
+  //this.e_levelBtn.click(function(){
+   //if(self.playing) return;
+   //self.e_levelMenu.toggle();
+  //});
   this.e_levelMenu.find("a").click(function(){
-   self.e_levelMenu.hide();
-   self.e_levelBtn.find(".level_text").html($(this).html())
+   //self.e_levelMenu.hide();
+   //self.e_levelBtn.find(".level_text").html($(this).html())
    
    if(parseInt($(this).attr("level")) !== self.level){
+     self.init();
+    $(this).siblings().css({"backgroundColor":"#09F"});
+    $(this).css({"backgroundColor":"#FFAC24"});
     self.set({
      "level": $(this).attr("level")
     });
@@ -134,7 +137,7 @@ puzzleGame.prototype = {
   this.isBind = true;
   this.cb_cellDown.add(self.cellDown);
   for(var i = 0, len = this.cellArr.length; i<len; i++){
-   this.cellArr[i].on({
+   /*this.cellArr[i].on({
      "mouseover": function () {
        console.log("mouseover touchstart addClass")
      $(this).addClass("hover");
@@ -148,7 +151,7 @@ puzzleGame.prototype = {
      self.cb_cellDown.fire(e, $(this), self);
      return false;
     }
-   });
+   });*/
     this.cellArr[i].bind("touchstart", function (e) {
       console.log("mousedown touchover self")
       $(this).addClass("hover");
@@ -169,17 +172,13 @@ puzzleGame.prototype = {
   self.thisTop = _cell.css("top");
   self.thisIndex = Math.floor(parseInt(self.thisTop)/self.cellHeight)*self.cellCol;
   self.thisIndex += Math.floor(parseInt(self.thisLeft)/self.cellWidth);
-   console.log("self:", _x, _y, self.thisLeft, self.thisTop, self.thisIndex) ;
   _cell.css("zIndex",99);
    $(document).bind("touchmove", function (e) {
-     console.log("touchmove")
      _cell.css({
        "left": e.originalEvent.targetTouches[0].pageX - self.offX - _x,
        "top": e.originalEvent.targetTouches[0].pageY - self.offY - _y
      })
-     console.log("left:", e.originalEvent.targetTouches[0].pageX - self.offX - _x, "right:", e.originalEvent.targetTouches[0].pageY - self.offY - _y)
    }).bind("touchend", function (e) {
-     console.log("touchend");
      $(document).unbind("touchmove");
      $(document).unbind("touchend");
      self.cb_cellDown.empty();
@@ -290,13 +289,13 @@ puzzleGame.prototype = {
   }
  },
  success:function(){
-  alert("ok");
+  ConfettiStart();
   this.score += this.scoreArr[this.level]
   this.e_playScore.html(this.score);
  }
 }
 $(document).ready(function(e) {
     var pg = new puzzleGame({
-  img: "img/zzsc.jpg"
+  img: "img/zzsc.png"
  });
 });
