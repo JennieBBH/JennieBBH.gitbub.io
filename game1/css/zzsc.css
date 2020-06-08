@@ -1,5 +1,5 @@
 html {
-    height: 100%;
+    
 }
 
 body,
@@ -36,6 +36,8 @@ body {
     background: #fff;
     color: #333;
     height: 100%;
+    background: url("https://oss.matrixsci.cn/jewels/image/common-bg.png?1") repeat;
+    background-attachment: fixed;
 }
 
 a {
@@ -57,21 +59,23 @@ a {
     visibility: hidden;
 }
 
-.wrap {
+.wrap {}
+
+.play_wrap {
+    background: linear-gradient(139deg, rgba(255, 216, 241, 0.3) 0%, rgba(255, 128, 203, 0.3) 100%);
+    border-radius: 6px;
+    margin: 10px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    overflow: hidden;
-    justify-content: space-around;
-    height: 100%;
+    justify-content: center;
+    padding: 20px;
 }
 
-.play_wrap {}
-
 #play_area {
+    opacity: 1;
     position: relative;
-    width: 600px;
-    height: 600px;
+    width: 312px;
+    height: 312px;
     background: #fefefe;
     border-radius: 2px;
     color: black;
@@ -105,29 +109,39 @@ a {
 }
 
 .play_menu {
-    width: 100%;
-    font-size: 36px;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    font-size: 18px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    margin-bottom: 300px;
+    padding-top: 12px;
+    padding-bottom: 55px;
+    background-color: white;
 }
 
 .play_btn {
     display: block;
-    margin-top: 30px;
-    width: 640px;
-    height: 80px;
-    background-color: #FFAC24;
-    line-height: 80px;
+    width: 159px;
+    height: 53px;
+    line-height: 53px;
     text-align: center;
     color: white;
     border-radius: 5px;
+    background-image: url('../img/btn-bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    font-size: 15px;
+    font-family: NotoSansSCBold;
+    color: rgba(255, 255, 255, 1);
 }
-.play_btn_test{
+
+.play_btn_test {
     background-color: #666666;
 }
+
 .play_btn a {
     text-decoration: none;
     color: white;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <title>拼图游戏</title>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/zzsc.js"></script>
@@ -11,21 +11,20 @@
 <body>
 <div class="wrap">
     <div class="play_wrap">
-        <div>
-            <div id="play_area"></div>
-        </div>
+        <div id="play_area"></div>
     </div>
     <div class="play_menu">
-        <div class="level_menu" id="play_menu_level">
+        <!--div-- class="level_menu" id="play_menu_level">
             <a href="javascript:void(0);" level=0>青铜</a>
-            <a href="javascript:void(0);" level=1>白银</a>
-            <a href="javascript:void(0);" level=2>王者</a>
+        </!--div-->
+        <div class="play_btn">
+            <a id="play_btn_start" href="javascript:void(0);" unselectable="on">PLAY AGAIN</a>
         </div>
         <div class="play_btn">
-            <a id="play_btn_start" href="javascript:void(0);" unselectable="on">开始</a>
+            <a id="play_btn_start_2" href="javascript:void(0);" unselectable="on">STAR</a>
         </div>
         
-        <div class="play_btn play_btn_test" ><a id="confetti_btn_begin" href="javascript:void(0);" οnclick="ConfettiStart()">（测试）五彩纸屑 开始</a></div>
+        <!--div class="play_btn play_btn_test" ><a id="confetti_btn_begin" href="javascript:void(0);" οnclick="ConfettiStart()">（测试）五彩纸屑 开始</a></div>
         <div class="play_btn play_btn_test" ><a id="confetti_btn_end" href="javascript:void(0);" οnclick="ConfettiStart()">（测试）五彩纸屑 结束</a></div>
     </div>
 </div>

@@ -3,7 +3,8 @@ var puzzleGame = function(options){
  this.img = options.img || "";
  
  this.e_playArea = $("#play_area");
- this.e_startBtn = $("#play_btn_start");
+  this.e_startBtn = $("#play_btn_start");
+  this.e_startBtn_2 = $("#play_btn_start_2");
  this.e_playScore = $("#play_score");
  this.e_playCount = $("#play_count");
  this.e_levelBtn = $("#play_btn_level");
@@ -15,7 +16,7 @@ var puzzleGame = function(options){
  this.offY = this.e_playArea.offset().top;
  
  this.levelArr = [[3,3],[4,4],[6,6]];
- this.level = 1;
+ this.level = 0;
  this.scoreArr = [100,200,400];
  this.score = 0;
  this.playCount = 0;
@@ -59,6 +60,10 @@ puzzleGame.prototype = {
    //self.e_levelMenu.hide();
    self.play();
   });
+   this.e_startBtn_2.click(function () {
+     //self.e_levelMenu.hide();
+     self.play();
+   });
   //this.e_levelBtn.click(function(){
    //if(self.playing) return;
    //self.e_levelMenu.toggle();
