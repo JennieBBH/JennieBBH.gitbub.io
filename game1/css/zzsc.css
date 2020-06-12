@@ -135,12 +135,19 @@ a {
     text-align: center;
     color: white;
     border-radius: 5px;
-    background-image: url('../img/btn-bg.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     font-size: 15px;
     font-family: NotoSansSCBold;
     color: rgba(255, 255, 255, 1);
+}
+
+.play_btn_1 {
+    background-image: url('../img/btn-bg-1.png');
+}
+
+.play_btn_2 {
+    background-image: url('../img/btn-bg-2.png');
 }
 
 .play_btn_test {
