@@ -38,8 +38,12 @@ var puzzleGame = function(options){
  this.thisIndex;
  
  this.cb_cellDown = $.Callbacks();
+<<<<<<< HEAD
  this.touchID = null;
  this.touchFailTime = 0;
+=======
+ 
+>>>>>>> parent of be96fe1... 控制多点触控
  
  this.isInit = false;
  this.isBind = false;
@@ -161,13 +165,7 @@ puzzleGame.prototype = {
     }
    });*/
     this.cellArr[i].bind("touchstart", function (e) {
-      console.log("touchstart self:", e, e.originalEvent.changedTouches)
-      console.log("touchID:", self.touchID)
-      var flag = self.processEvent(e);
-      if (!flag && self.touchFailTime < 3){
-        self.touchFailTime++;
-        return;
-      }
+      console.log("mousedown touchover self")
       $(this).addClass("hover");
       self.cb_cellDown.fire(e, $(this), self);
     });
@@ -201,19 +199,11 @@ puzzleGame.prototype = {
   self.thisIndex += Math.floor(parseInt(self.thisLeft)/self.cellWidth);
   _cell.css("zIndex",99);
    $(document).bind("touchmove", function (e) {
-     var flag = self.processEvent(e);
-     if (!flag) {
-       return;
-     }
      _cell.css({
        "left": e.originalEvent.targetTouches[0].pageX - self.offX - _x,
        "top": e.originalEvent.targetTouches[0].pageY - self.offY - _y
      })
    }).bind("touchend", function (e) {
-     var flag = self.processEvent(e);
-     if (!flag) {
-       return;
-     }
      $(document).unbind("touchmove");
      $(document).unbind("touchend");
      self.cb_cellDown.empty();
@@ -327,6 +317,7 @@ puzzleGame.prototype = {
   ConfettiStart();
   this.score += this.scoreArr[this.level]
   this.e_playScore.html(this.score);
+<<<<<<< HEAD
  },
   processEvent: function(event) {
     if (event.originalEvent.changedTouches) {
@@ -376,6 +367,9 @@ puzzleGame.prototype = {
     }
     return false;
   }
+=======
+ }
+>>>>>>> parent of be96fe1... 控制多点触控
 }
 $(document).ready(function(e) {
     var pg = new puzzleGame({
