@@ -45,6 +45,13 @@ var puzzleGame = function(options){
  this.isBind = false;
  this.start();
 };
+
+$("body").css({ 'touch-action': 'none' });
+$("body").bind('touchmove', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+}, { passive: false })
+
 puzzleGame.prototype = {
  start:function(){
   this.init();
