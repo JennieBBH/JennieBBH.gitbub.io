@@ -39,6 +39,7 @@ var puzzleGame = function(options){
  
  this.cb_cellDown = $.Callbacks();
  this.touchID = null;
+ this.touchFailTime = 0;
  
  this.isInit = false;
  this.isBind = false;
@@ -57,11 +58,13 @@ puzzleGame.prototype = {
   var self = this;
   
   this.e_startBtn.click(function(){
-   //self.e_levelMenu.hide();
-   self.play();
+    //self.e_levelMenu.hide();
+    self.touchID = null;
+    self.play();
   });
    this.e_startBtn_2.click(function () {
      //self.e_levelMenu.hide();
+     self.touchID = null;
      self.play();
    });
   //this.e_levelBtn.click(function(){
@@ -159,8 +162,10 @@ puzzleGame.prototype = {
    });*/
     this.cellArr[i].bind("touchstart", function (e) {
       console.log("touchstart self:", e, e.originalEvent.changedTouches)
+      console.log("touchID:", self.touchID)
       var flag = self.processEvent(e);
-      if (!flag) {
+      if (!flag && self.touchFailTime < 3){
+        self.touchFailTime++;
         return;
       }
       $(this).addClass("hover");
@@ -169,6 +174,19 @@ puzzleGame.prototype = {
     this.cellArr[i].bind("touchend", function (e) {
       console.log("mouseout touchend removeClass")
       $(this).removeClass("hover");
+      /*var flag = self.processEvent(e);
+      console.log("touchend~~~~~", flag)
+      if (!flag) {
+        return;
+      }
+      */
+    });
+    this.cellArr[i].bind("touchcancel", function (e) {
+      console.log("touchcancel")
+      var flag = self.processEvent(e);
+      if (!flag) {
+        return;
+      }
     });
   }
  },
@@ -312,16 +330,18 @@ puzzleGame.prototype = {
  },
   processEvent: function(event) {
     if (event.originalEvent.changedTouches) {
+      console.log("in~~~~:", this.touchID)
     // 单点触控
       var currentTouch = null;
       if (event.type == "touchstart") {
         // 假如当前无触摸点，则新建一个
+        console.log("touchstart~~~~", this.touchID)
         if (this.touchID == null) {
           this.touchID = event.originalEvent.changedTouches[0].identifier;
           currentTouch = event.originalEvent.changedTouches[0];
-          console.log("~~~~", this.touchID, currentTouch)
+          console.log("新建~~~~", this.touchID, currentTouch)
         } else {
-        return false;
+          return false;
         }
       } else if (event.type == "touchmove") {
         // 判断触发当前事件的触摸点中是否有touchID对应的触摸点
@@ -331,6 +351,7 @@ puzzleGame.prototype = {
             break;
           }
         }
+        console.log("touchmove~~~~currentTouch：", currentTouch)
         if (!currentTouch) {
           return false;
         }
@@ -342,8 +363,10 @@ puzzleGame.prototype = {
             break;
           }
         }
+        console.log("touchend~~~~currentTouch：", currentTouch)
         if (currentTouch) {
           this.touchID = null;
+          console.log("touchend~~~~touchID清除：", this.touchID)
         } else {
           return false;
         }
