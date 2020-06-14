@@ -39,7 +39,7 @@ var puzzleGame = function(options){
  
  this.cb_cellDown = $.Callbacks();
  this.touchID = null;
- this.touchFailTime = 0;
+ this.exchangeFinished = true;
  
  this.isInit = false;
  this.isBind = false;
@@ -162,18 +162,21 @@ puzzleGame.prototype = {
    });*/
     this.cellArr[i].bind("touchstart", function (e) {
       console.log("mousedown touchover self")
+      var flag = self.processEvent(e);
+      if (!flag) {
+        return;
+      }
       $(this).addClass("hover");
       self.cb_cellDown.fire(e, $(this), self);
     });
     this.cellArr[i].bind("touchend", function (e) {
       console.log("mouseout touchend removeClass")
-      $(this).removeClass("hover");
+      $(this).removeClass("hover")
       /*var flag = self.processEvent(e);
-      console.log("touchend~~~~~", flag)
       if (!flag) {
         return;
-      }
-      */
+      }*/
+      //self.touchID = null;
     });
     this.cellArr[i].bind("touchcancel", function (e) {
       console.log("touchcancel")
@@ -195,11 +198,22 @@ puzzleGame.prototype = {
   self.thisIndex += Math.floor(parseInt(self.thisLeft)/self.cellWidth);
   _cell.css("zIndex",99);
    $(document).bind("touchmove", function (e) {
+     var flag = self.processEvent(e);
+     console.log("touchmove~~~~~", flag)
+     if (!flag) {
+       return;
+     }
      _cell.css({
        "left": e.originalEvent.targetTouches[0].pageX - self.offX - _x,
        "top": e.originalEvent.targetTouches[0].pageY - self.offY - _y
      })
    }).bind("touchend", function (e) {
+     var flag = self.processEvent(e);
+     console.log("touchend~~~~~", flag)
+     if (!flag) {
+       return;
+     }
+     self.touchID = null;
      $(document).unbind("touchmove");
      $(document).unbind("touchend");
      self.cb_cellDown.empty();
@@ -263,7 +277,9 @@ puzzleGame.prototype = {
   _nc = this.cellArr[this.nextIndex],
   _nl = (this.nextIndex % this.cellCol) * this.cellWidth,
   _nt = Math.floor(this.nextIndex / this.cellCol) * this.cellHeight;
-  
+
+  self.exchangeFinished = false;
+   console.log("exchangeFinished status(changecell):", self.exchangeFinished)
   _nc.css("zIndex",98);
   
   this.cellArr[this.nextIndex] = _tc;
@@ -285,15 +301,22 @@ puzzleGame.prototype = {
    "left": _tl,
    "top": _tt
   },self.time,self.easing,function(){
-   _nc.removeClass("hover");
-   _nc.css("zIndex","");
-   self.check();
+    _nc.removeClass("hover");
+    _nc.css("zIndex","");
+    self.check();
    
-   if(!self.cb_cellDown.has(self.cellDown)) self.cb_cellDown.add(self.cellDown);
+    if(!self.cb_cellDown.has(self.cellDown)) self.cb_cellDown.add(self.cellDown);
+
+    self.exchangeFinished = true;
+    console.log("exchangeFinished status(changecell):", self.exchangeFinished)
   })
+   self.touchID = null;
+   console.log("******清空管道self.touchID:", self.touchID)
  },
  returnCell:function(){
-  var self = this;
+   var self = this;
+   self.exchangeFinished = false;
+   console.log("exchangeFinished status:", self.exchangeFinished)
   this.cellArr[this.thisIndex].animate({
    "left": self.thisLeft,
    "top": self.thisTop
@@ -302,6 +325,9 @@ puzzleGame.prototype = {
    $(this).css("zIndex","");
    if(!self.cb_cellDown.has(self.cellDown)) self.cb_cellDown.add(self.cellDown);
   });
+   console.log("******清空管道self.touchID(returncell):", self.touchID)
+   self.exchangeFinished = true;
+   console.log("exchangeFinished status(returncell):", self.exchangeFinished)
  },
  check:function(){
   this.e_playCount.html( ++ this.playCount);
@@ -315,18 +341,19 @@ puzzleGame.prototype = {
   this.e_playScore.html(this.score);
  },
   processEvent: function(event) {
+    var self = this;
+    console.log("processEvent********判断触摸点及exchange status:", this.touchID, this.exchangeFinished)
     if (event.originalEvent.changedTouches) {
-      console.log("in~~~~:", this.touchID)
     // 单点触控
       var currentTouch = null;
       if (event.type == "touchstart") {
         // 假如当前无触摸点，则新建一个
-        console.log("touchstart~~~~", this.touchID)
-        if (this.touchID == null) {
+        if (this.touchID == null && this.exchangeFinished == true) {
+          console.log("processEvent当前无touchstart触摸点，则新建一个：", this.touchID)
           this.touchID = event.originalEvent.changedTouches[0].identifier;
           currentTouch = event.originalEvent.changedTouches[0];
-          console.log("新建~~~~", this.touchID, currentTouch)
         } else {
+          console.log("processEvent当前有touchstart触摸点：", this.touchID)
           return false;
         }
       } else if (event.type == "touchmove") {
@@ -337,7 +364,7 @@ puzzleGame.prototype = {
             break;
           }
         }
-        console.log("touchmove~~~~currentTouch：", currentTouch)
+        console.log("processEvent是否有touchmove对应的触摸点:", currentTouch)
         if (!currentTouch) {
           return false;
         }
@@ -351,9 +378,10 @@ puzzleGame.prototype = {
         }
         console.log("touchend~~~~currentTouch：", currentTouch)
         if (currentTouch) {
-          this.touchID = null;
-          console.log("touchend~~~~touchID清除：", this.touchID)
+          self.touchID = null;
+          console.log("processEvent有touchend cancel对应的触摸点,进行清除：", self.touchID)
         } else {
+          console.log("processEvent没有touchend cancel对应的触摸点")
           return false;
         }
       }
