@@ -38,7 +38,7 @@ var puzzleGame = function(options){
  this.thisIndex;
  
  this.cb_cellDown = $.Callbacks();
- 
+ this.touchID = null;
  
  this.isInit = false;
  this.isBind = false;
@@ -158,7 +158,11 @@ puzzleGame.prototype = {
     }
    });*/
     this.cellArr[i].bind("touchstart", function (e) {
-      console.log("mousedown touchover self")
+      console.log("touchstart self:", e, e.originalEvent.changedTouches)
+      var flag = self.processEvent(e);
+      if (!flag) {
+        return;
+      }
       $(this).addClass("hover");
       self.cb_cellDown.fire(e, $(this), self);
     });
@@ -179,11 +183,19 @@ puzzleGame.prototype = {
   self.thisIndex += Math.floor(parseInt(self.thisLeft)/self.cellWidth);
   _cell.css("zIndex",99);
    $(document).bind("touchmove", function (e) {
+     var flag = self.processEvent(e);
+     if (!flag) {
+       return;
+     }
      _cell.css({
        "left": e.originalEvent.targetTouches[0].pageX - self.offX - _x,
        "top": e.originalEvent.targetTouches[0].pageY - self.offY - _y
      })
    }).bind("touchend", function (e) {
+     var flag = self.processEvent(e);
+     if (!flag) {
+       return;
+     }
      $(document).unbind("touchmove");
      $(document).unbind("touchend");
      self.cb_cellDown.empty();
@@ -297,7 +309,50 @@ puzzleGame.prototype = {
   ConfettiStart();
   this.score += this.scoreArr[this.level]
   this.e_playScore.html(this.score);
- }
+ },
+  processEvent: function(event) {
+    if (event.originalEvent.changedTouches) {
+    // 单点触控
+      var currentTouch = null;
+      if (event.type == "touchstart") {
+        // 假如当前无触摸点，则新建一个
+        if (this.touchID == null) {
+          this.touchID = event.originalEvent.changedTouches[0].identifier;
+          currentTouch = event.originalEvent.changedTouches[0];
+          console.log("~~~~", this.touchID, currentTouch)
+        } else {
+        return false;
+        }
+      } else if (event.type == "touchmove") {
+        // 判断触发当前事件的触摸点中是否有touchID对应的触摸点
+        for (let i = 0; i < event.originalEvent.changedTouches.length; i++) {
+          if (event.originalEvent.changedTouches[i].identifier == this.touchID) {
+            currentTouch = event.originalEvent.changedTouches[i];
+            break;
+          }
+        }
+        if (!currentTouch) {
+          return false;
+        }
+      } else if (event.type == "touchend" || event.type == "touchcancel") {
+      // 判断触发当前事件的触摸点中是否有touchID对应的触摸点
+        for (let i = 0; i < event.originalEvent.changedTouches.length; i++) {
+          if (event.originalEvent.changedTouches[i].identifier == this.touchID) {
+            currentTouch = event.originalEvent.changedTouches[i];
+            break;
+          }
+        }
+        if (currentTouch) {
+          this.touchID = null;
+        } else {
+          return false;
+        }
+      }
+      // do something for current touch point
+      return true;
+    }
+    return false;
+  }
 }
 $(document).ready(function(e) {
     var pg = new puzzleGame({
