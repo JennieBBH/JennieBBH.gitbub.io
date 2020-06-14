@@ -1,6 +1,9 @@
-html {}
+html,
+body {
+    overflow: hidden;
+    height: 100vh;
+}
 
-body,
 div,
 dl,
 dt,
