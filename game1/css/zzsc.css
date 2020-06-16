@@ -206,3 +206,64 @@ a {
     margin: 0 10px;
     border-radius: 5px;
 }
+
+.play_choice {
+    padding: 20px 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.play-choice-btn {
+    width: 46px;
+    height: 30px;
+    padding: 0 7px;
+    background: rgba(255, 252, 254, 1);
+    box-shadow: 0px 2px 4px 0px rgba(252, 204, 234, 1);
+    border-radius: 15px;
+    border: 1px solid rgba(251, 151, 187, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.play-choice-btn.select {
+    background: rgba(253, 124, 169, 1);
+    color: white;
+}
+
+.play-choice-bt-image {
+    width: 18px;
+    height: 18px;
+}
+
+.desc {
+    font-size: 12px;
+    font-family: PingFangSC-Light, PingFang SC;
+    font-weight: 300;
+    color: rgba(32, 32, 32, 1);
+    line-height: 22px;
+    padding: 0 20px;
+}
+
+.preview {
+    font-size: 12px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 80, 140, 1);
+    line-height: 17px;
+    text-align: center;
+    padding-top: 22px;
+    position: relative;
+    width: 72px;
+    margin: 0 auto;
+}
+.preview-img{
+    position: absolute;
+    top: -300px;
+    left: -113px;
+    width: 300px;
+    height: 300px;
+    z-index: 1000;
+    display: none;
+}

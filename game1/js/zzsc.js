@@ -9,6 +9,10 @@ var puzzleGame = function(options){
  this.e_playCount = $("#play_count");
  this.e_levelBtn = $("#play_btn_level");
  this.e_levelMenu = $("#play_menu_level");
+
+  this.e_playChoiceBtn1 = $("#play-choice-btn-1");
+  this.e_playChoiceBtn2 = $("#play-choice-btn-2");
+  this.e_playChoiceBtn3 = $("#play-choice-btn-3");
  
  this.areaWidth = parseInt(this.e_playArea.css("width"));
  this.areaHeight = parseInt(this.e_playArea.css("height"));
@@ -55,11 +59,22 @@ $("body").bind('touchmove', (e) => {
 puzzleGame.prototype = {
  start:function(){
   this.init();
-  
   this.menu();
+  this.preview();
  },
  set: function(options){
   this.level = options.level === 0 ? 0 : (options.level || 1);
+ },
+ preview: function(){
+   $("#preview").on({
+     "touchstart": function () {
+       $("#preview-img").attr({'style':'display:inline'});
+     },
+     "touchend": function () {
+       console.log("touchend!!")
+       $("#preview-img").attr({ 'style':'display:none'});
+     }
+   })
  },
  menu:function(){
   var self = this;
@@ -74,6 +89,30 @@ puzzleGame.prototype = {
      self.touchID = null;
      self.play();
    });
+   this.e_playChoiceBtn1.click(function(){
+     self.e_playChoiceBtn1.siblings().removeClass('select').find('img').attr('src','img/flower.png');
+     self.e_playChoiceBtn1.addClass("select").find('img').attr('src', 'img/flower.png');
+     self.set({ "level": 0 });
+     self.isInit = true;
+     self.isBind = false;
+     self.init();
+   })
+   this.e_playChoiceBtn2.click(function () {
+     self.e_playChoiceBtn2.siblings().removeClass('select').find('img').attr('src', 'img/flower.png');
+     self.e_playChoiceBtn2.addClass("select").find('img').attr('src', 'img/flower.png');
+     self.set({ "level": 1 });
+     self.isInit = true;
+     self.isBind = false;
+     self.init();
+   })
+   this.e_playChoiceBtn3.click(function () {
+     self.e_playChoiceBtn3.siblings().removeClass('select').find('img').attr('src', 'img/flower.png');
+     self.e_playChoiceBtn3.addClass("select").find('img').attr('src', 'img/flower.png');
+     self.set({ "level": 2 });
+     self.isInit = true;
+     self.isBind = false;
+     self.init();
+   })
   //this.e_levelBtn.click(function(){
    //if(self.playing) return;
    //self.e_levelMenu.toggle();
@@ -109,7 +148,14 @@ puzzleGame.prototype = {
  },
  init:function(){
   var _cell;
-  
+  if (this.isInit) {
+    this.isInit = false;
+    this.cellRow = this.levelArr[this.level][0];
+    this.cellCol = this.levelArr[this.level][1];
+    this.cellWidth = this.areaWidth / this.cellCol;
+    this.cellHeight = this.areaHeight / this.cellRow;
+    this.init();
+  }
   this.cellArr = [];
   this.imgArr = [];
   this.e_playArea.html("");
