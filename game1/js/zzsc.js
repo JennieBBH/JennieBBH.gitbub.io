@@ -389,9 +389,10 @@ puzzleGame.prototype = {
   }
  },
  success:function(){
-  ConfettiStart();
-  this.score += this.scoreArr[this.level]
-  this.e_playScore.html(this.score);
+  //ConfettiStart();
+  //this.score += this.scoreArr[this.level]
+  //this.e_playScore.html(this.score);
+   $("#popup").attr({ 'style': 'display:inline'})
  },
   processEvent: function(event) {
     var self = this;
@@ -448,4 +449,8 @@ $(document).ready(function(e) {
     var pg = new puzzleGame({
   img: "img/zzsc.png"
  });
+  $("#popup-btn").click(function () {
+    //self.e_levelMenu.hide();
+    $("#popup").attr({ 'style': 'display:none' })
+  });
 });
