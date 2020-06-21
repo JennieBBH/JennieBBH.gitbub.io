@@ -26,7 +26,7 @@ var strings_en = {
   hard: 'hard',
   rules: 'Instructions: <br/>Click “Start” to play, drag the pieces to the correct location to win shopping points! <br />Click “Play again” to Replay',
   check: 'View original picture',
-  finish: 'Game Over',
+  finish: 'Congratulations',
   popupText1: 'You earned',
   popupText2: 'points!',
   popupText3: 'Enjoy your luxury shopping experience!',

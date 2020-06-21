@@ -44,7 +44,9 @@ var puzzleGame = function(options){
  this.cb_cellDown = $.Callbacks();
  this.touchID = null;
  this.exchangeFinished = true;
- 
+
+ this.openID = getUrlParam('openId');
+
  this.isInit = false;
  this.isBind = false;
  this.start();
@@ -393,6 +395,17 @@ puzzleGame.prototype = {
   //this.score += this.scoreArr[this.level]
   //this.e_playScore.html(this.score);
    $("#popup").attr({ 'style': 'display:inline'})
+   $.ajax({
+     type: 'PUT',
+     method: 'PUT',
+     url: 'https://www.matrixsci.cn/jewels/score/addGameScore?openId=' + this.openID,
+     success: function(res){
+       console.log("success res:", res)
+     },
+     error: function (res) {
+       console.log("增加积分失败：", res);
+     }
+   });
  },
   processEvent: function(event) {
     var self = this;
@@ -453,4 +466,36 @@ $(document).ready(function(e) {
     //self.e_levelMenu.hide();
     $("#popup").attr({ 'style': 'display:none' })
   });
+  /*$.ajax({
+    type: 'POST',
+    url: 'https://www.matrixsci.cn/jewels/score/addGameScore?openId=' + getUrlParam('openId'),
+    contentType: 'application/json',
+    success: function (res) {
+      console.log("success res:", res)
+    },
+    error: function (res) {
+      console.log("增加积分失败：", res);
+    }
+  });*/
+  /*var request = new XMLHttpRequest();
+  request.open('PUT', 'https://www.matrixsci.cn/jewels/score/addGameScore');
+  request.setRequestHeader("Content-type", "application/json");
+  send_data = { 
+    'openId': getUrlParam('openId')
+  }
+  request.send(JSON.stringify(send_data));
+  request.onload = function (e) {
+    console.log("请求成功")
+    console.log(request.status, "请求的URL的相应状态")
+    console.log(request.readyState, "请求的结果，一般都是4")
+    if (request.status === 200) {
+      console.log('设置回调事件成功！');
+    }
+    else {
+      console.log('设置失败，请重试！');
+    }
+  }
+  request.onerror = function (e) {
+    console.log('请求失败')
+  }*/
 });
