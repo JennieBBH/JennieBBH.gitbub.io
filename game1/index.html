@@ -5,6 +5,7 @@
 <title>拼图游戏</title>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/zzsc.js"></script>
+<script type="text/javascript" src="js/lang.js"></script>
 <script type="text/javascript" src="js/Confetti.js"></script>
 <link href="css/zzsc.css" type="text/css" rel="stylesheet" />
 </head>
@@ -16,23 +17,20 @@
     <div class="play_choice">
         <div class="play-choice-btn select" id="play-choice-btn-1">
             <image class="play-choice-bt-image" src="img/flower.png"></image>
-            <div>简单</div>
+            <div id="choice-text-easy">简单</div>
         </div>
         <div class="play-choice-btn" id="play-choice-btn-2">
             <image class="play-choice-bt-image" src="img/flower.png"></image>
-            <div>中等</div>
+            <div id="choice-text-normal">中等</div>
         </div>
         <div class="play-choice-btn" id="play-choice-btn-3">
             <image class="play-choice-bt-image" src="img/flower.png"></image>
-            <div>困难</div>
+            <div id="choice-text-hard">困难</div>
         </div>
     </div>
-    <div class="desc">游戏规则：<br/>
-    1.点击图片拽动图案，最快速度拼，拼出完整图案的可获得10积分大礼~<br />
-    2.难度越大，完成后获得的积分越高哦~
-    </div>
+    <div class="desc" id="rules"></div>
     <div class="preview" id="preview">
-        <div>查看完整拼图</div>
+        <div id="check">View original picture</div>
         <image class="preview-img" id="preview-img" src="img/zzsc.png"></image>
     </div>
     <div class="play_menu">
@@ -57,13 +55,19 @@
         <div class="popup-content-detail">
             <div class="popup-title">
                 <img src="img/popup-title-icon.png"/>
-                <div>完成游戏</div><img src="img/popup-title-icon.png" />
+                <div id="game-finish"></div><img src="img/popup-title-icon.png" />
             </div>
-            <div class="popup-text">恭喜您，获得<span>10</span>积分！</div>
+            <div class="popup-text">
+                <span id="popup-text-1"></span>
+                <span id="popup-text-score">10</span>
+                <span id="popup-text-2"></span>
+            </div>
+            <div class="popup-text" id="popup-text-3">点击🔛炫彩奢华购物之旅</div>
             <div class="popup-btn" id="popup-btn">
                 <img src="img/confirm_with_icon.png"/>
-                <div>确认</div>
+                <div id="popup-text-confirm">确认</div>
             </div>
+            <div class="popup-hint" id="popup-hint">注: 轻按左上角返回 "< "键 回到主页面</div>
         </div>
     </div>
 </div>
