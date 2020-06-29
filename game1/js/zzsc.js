@@ -391,7 +391,7 @@ puzzleGame.prototype = {
   }
  },
  success:function(){
-  //ConfettiStart();
+  ConfettiStart();
   //this.score += this.scoreArr[this.level]
   //this.e_playScore.html(this.score);
    $("#popup").attr({ 'style': 'display:inline'})
@@ -459,24 +459,26 @@ puzzleGame.prototype = {
   }
 }
 $(document).ready(function(e) {
-    var pg = new puzzleGame({
-  img: "img/zzsc.png"
+  var phoneType = getPhoneType();
+  console.log("zzsc js phoneType:", phoneType);
+  var imgUrl = phoneType === "notOk" ? "img/zzsc-small2.png":"img/zzsc.png"
+  var pg = new puzzleGame({
+    img: imgUrl
  });
   $("#popup-btn").click(function () {
     //self.e_levelMenu.hide();
     $("#popup").attr({ 'style': 'display:none' })
   });
-  /*$.ajax({
-    type: 'POST',
+  $.ajax({
+    type: 'PUT',
     url: 'https://www.matrixsci.cn/jewels/score/addGameScore?openId=' + getUrlParam('openId'),
-    contentType: 'application/json',
     success: function (res) {
       console.log("success res:", res)
     },
     error: function (res) {
       console.log("增加积分失败：", res);
     }
-  });*/
+  });
   /*var request = new XMLHttpRequest();
   request.open('PUT', 'https://www.matrixsci.cn/jewels/score/addGameScore');
   request.setRequestHeader("Content-type", "application/json");

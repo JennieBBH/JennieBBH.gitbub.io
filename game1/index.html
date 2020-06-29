@@ -4,6 +4,7 @@
     <meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, text/html; charset=utf-8">
 <title>拼图游戏</title>
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/device.js"></script>
 <script type="text/javascript" src="js/zzsc.js"></script>
 <script type="text/javascript" src="js/lang.js"></script>
 <script type="text/javascript" src="js/Confetti.js"></script>
@@ -14,7 +15,7 @@
     <div class="play_wrap">
         <div id="play_area"></div>
     </div>
-    <div class="play_choice">
+    <div id="play_choice" class="play_choice">
         <div class="play-choice-btn select" id="play-choice-btn-1">
             <image class="play-choice-bt-image" src="img/flower.png"></image>
             <div id="choice-text-easy">简单</div>
@@ -33,7 +34,7 @@
         <div id="check">View original picture</div>
         <image class="preview-img" id="preview-img" src="img/zzsc.png"></image>
     </div>
-    <div class="play_menu">
+    <div id="play_menu" class="play_menu">
         <!--div-- class="level_menu" id="play_menu_level">
             <a href="javascript:void(0);" level=0>青铜</a>
         </!--div-->

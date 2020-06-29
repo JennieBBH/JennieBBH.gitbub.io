@@ -108,6 +108,11 @@ a {
     cursor: default;
 }
 
+#play_area.play_area_notok {
+    width: 162px;
+    height: 162px;
+}
+
 #play_area .play_cell {
     width: 48px;
     height: 48px;
@@ -142,6 +147,10 @@ a {
     padding-top: 12px;
     padding-bottom: 55px;
     background-color: white;
+}
+
+.play_menu.play_menu_notok {
+    padding-bottom: 12px;
 }
 
 .play_btn {
@@ -228,6 +237,10 @@ a {
     justify-content: space-between;
 }
 
+.play_choice.play_choice_notok {
+    padding: 10px 40px;
+}
+
 .play-choice-btn {
     width: 46px;
     height: 30px;
@@ -239,6 +252,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: rgba(251, 151, 187, 1);
 }
 
 .play-choice-btn.select {
