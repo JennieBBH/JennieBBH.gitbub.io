@@ -469,7 +469,7 @@ $(document).ready(function(e) {
     //self.e_levelMenu.hide();
     $("#popup").attr({ 'style': 'display:none' })
   });
-  $.ajax({
+  /*$.ajax({
     type: 'PUT',
     url: 'https://www.matrixsci.cn/jewels/score/addGameScore?openId=' + getUrlParam('openId'),
     success: function (res) {
@@ -478,7 +478,7 @@ $(document).ready(function(e) {
     error: function (res) {
       console.log("增加积分失败：", res);
     }
-  });
+  });*/
   /*var request = new XMLHttpRequest();
   request.open('PUT', 'https://www.matrixsci.cn/jewels/score/addGameScore');
   request.setRequestHeader("Content-type", "application/json");
